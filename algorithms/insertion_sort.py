@@ -4,12 +4,12 @@ def insertion_sort(arr):
     Params:
         arr (list[int]): Input list of integers
     Returns:
-        tuple: (sorted_list, comparisons, shifts)
+        tuple: (sorted_list, comparisons, operations)
     Note:
-        Track comparisons and shifts.
+        Track comparisons and operations (shifts + placements) for visualization and analysis.
     """
     comparisons = 0
-    shifts = 0
+    operations = 0
     arr = arr.copy()
 
     for i in range(1, len(arr)):
@@ -21,12 +21,12 @@ def insertion_sort(arr):
 
             if arr[j] > key:
                 arr[j + 1] = arr[j]
-                shifts += 1
+                operations += 1
                 j -= 1
             else:
                 break
 
         arr[j + 1] = key
-        shifts += 1
+        operations += 1
 
-    return arr, comparisons, shifts
+    return arr, comparisons, operations
