@@ -12,4 +12,8 @@ class SortingApp:
         self.root.title("Advanced Sorting Visualizer")
         self.root.geometry("1400x900")
 
+        self.array = []
+        self.current_sorter = None
+        self.all_stats = {}
 
+        self.setup_ui()
