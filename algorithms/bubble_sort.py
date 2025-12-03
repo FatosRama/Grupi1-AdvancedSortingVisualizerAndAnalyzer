@@ -1,28 +1,14 @@
-def bubble_sort(arr):
-    """
-    Bubble Sort Algorithm.
-    Params:
-        arr (list[int]): Input list of integers
-    Returns:
-        tuple: (sorted_list, comparisons, swaps)
-    """
-    n=len(arr)
-    comparisons= 0
-    swaps= 0
-    arr= arr.copy()
-
+def bubble_sort(vis):
+    n = len(vis.arr)
     for i in range(n):
-        swapped= False;
-
-        for j in range(0,n-i-1):
-            comparisons+=1
-
-            if arr[j]>arr[j+1]:
-                arr[j],arr[j+1]=arr[j+1],arr[j]
-                swaps+=1
-                swapped=True
-
+        swapped = False
+        for j in range(0, n - i - 1):
+            vis.compare(j, j + 1)
+            yield
+            if vis.arr[j] > vis.arr[j + 1]:
+                vis.swap(j, j + 1)
+                yield
+                swapped = True
         if not swapped:
             break
-
-    return arr,comparisons,swaps
+    vis.mark_sorted()
