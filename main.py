@@ -30,4 +30,19 @@ class SortingApp:
         ttk.Label(control_frame, text="Array Type:").grid(row=1, column=0, sticky="w", pady=5)
         self.array_type = tk.StringVar(value="Random")
         array_types = ["Random", "Nearly Sorted", "Reverse", "Few Unique"]
+<<<<<<< HEAD
         ttk.Combobox(control_frame, textvariable=self.array_type,values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
+=======
+        ttk.Combobox(control_frame, textvariable=self.array_type,
+                     values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
+
+        ttk.Button(control_frame, text="Generate Array",
+                   command=self.generate_array).grid(row=2, column=0, columnspan=2, pady=10)
+
+        ttk.Label(control_frame, text="Custom Array:").grid(row=3, column=0, sticky="w", pady=5)
+        self.custom_entry = ttk.Entry(control_frame, width=25)
+        self.custom_entry.grid(row=3, column=1, padx=5)
+        ttk.Button(control_frame, text="Use Custom",
+                   command=self.use_custom_array).grid(row=4, column=0, columnspan=2, pady=5)
+
+>>>>>>> c3062528c3ba91e50f579ee0980fcc5cdde00095
