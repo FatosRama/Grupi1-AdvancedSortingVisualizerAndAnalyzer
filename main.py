@@ -19,20 +19,27 @@ class SortingApp:
         self.setup_ui()
 
     def setup_ui(self):
-        # Control Panel (Left)
         control_frame = ttk.LabelFrame(self.root, text="Controls", padding=10)
         control_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
-        # Array size
         ttk.Label(control_frame, text="Array Size:").grid(row=0, column=0, sticky="w")
         self.size_var = tk.IntVar(value=30)
         size_slider = ttk.Scale(control_frame, from_=10, to=100,
                                 variable=self.size_var, orient="horizontal")
         size_slider.grid(row=0, column=1, padx=5)
 
-        # Array type
         ttk.Label(control_frame, text="Array Type:").grid(row=1, column=0, sticky="w", pady=5)
         self.array_type = tk.StringVar(value="Random")
         array_types = ["Random", "Nearly Sorted", "Reverse", "Few Unique"]
         ttk.Combobox(control_frame, textvariable=self.array_type,
                      values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
+
+        ttk.Button(control_frame, text="Generate Array",
+                   command=self.generate_array).grid(row=2, column=0, columnspan=2, pady=10)
+
+        ttk.Label(control_frame, text="Custom Array:").grid(row=3, column=0, sticky="w", pady=5)
+        self.custom_entry = ttk.Entry(control_frame, width=25)
+        self.custom_entry.grid(row=3, column=1, padx=5)
+        ttk.Button(control_frame, text="Use Custom",
+                   command=self.use_custom_array).grid(row=4, column=0, columnspan=2, pady=5)
+
