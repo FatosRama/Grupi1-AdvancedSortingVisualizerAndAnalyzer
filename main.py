@@ -18,6 +18,8 @@ class SortingApp:
 
         self.setup_ui()
 
+    # PJESA E UI
+
     def setup_ui(self):
         control_frame = ttk.LabelFrame(self.root, text="Controls", padding=10)
         control_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
@@ -30,11 +32,8 @@ class SortingApp:
         ttk.Label(control_frame, text="Array Type:").grid(row=1, column=0, sticky="w", pady=5)
         self.array_type = tk.StringVar(value="Random")
         array_types = ["Random", "Nearly Sorted", "Reverse", "Few Unique"]
-<<<<<<< HEAD
+
         ttk.Combobox(control_frame, textvariable=self.array_type,values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
-=======
-        ttk.Combobox(control_frame, textvariable=self.array_type,
-                     values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
 
         ttk.Button(control_frame, text="Generate Array",
                    command=self.generate_array).grid(row=2, column=0, columnspan=2, pady=10)
@@ -45,4 +44,10 @@ class SortingApp:
         ttk.Button(control_frame, text="Use Custom",
                    command=self.use_custom_array).grid(row=4, column=0, columnspan=2, pady=5)
 
->>>>>>> c3062528c3ba91e50f579ee0980fcc5cdde00095
+        # PJESA E FUNKSIONEVE
+
+        def use_custom_array(self):
+            return
+
+        def update_visualization(self, arr=None, highlights=None, title=None):
+            return
