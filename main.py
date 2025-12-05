@@ -47,7 +47,15 @@ class SortingApp:
         # PJESA E FUNKSIONEVE
 
         def use_custom_array(self):
-            return
+            try:
+                text = self.custom_entry.get()
+                self.array = [int(x.strip()) for x in text.split(",")]
+                if len(self.array) > 100:
+                    self.array = self.array[:100]
+                    messagebox.showinfo("Note", "Limited to first 100 elements")
+                self.update_visualization()
+            except ValueError:
+                messagebox.showerror("Error", "Enter comma-separated integers")
 
         def update_visualization(self, arr=None, highlights=None, title=None):
             return
