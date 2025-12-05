@@ -14,6 +14,7 @@ def merge_sort(vis, left=0, right=None):
         vis.mark_sorted()
         yield
 
+
         def merge(vis, left, mid, right):
             arr = vis.arr
             left_part = arr[left:mid + 1]
@@ -44,3 +45,13 @@ def merge_sort(vis, left=0, right=None):
                         yield
                     j += 1
                 k += 1
+
+                while i < len(left_part):
+                    if arr[k] != left_part[i]:
+                        arr[k] = left_part[i]
+                        vis.steps += 1
+                        if hasattr(vis, 'update_display'):
+                            vis.update_display([k], "Merging")
+                        yield
+                    i += 1
+                    k += 1
