@@ -22,3 +22,20 @@ def bucket_sort(vis):
         if hasattr(vis, 'update_display'):
             vis.update_display([idx], f"Bucket {bucket_idx}")
         yield
+
+        # Sort individual buckets - VISUALIZE
+        arr_idx = 0
+        for bucket_idx, bucket in enumerate(buckets):
+            if bucket:
+                # Sort this bucket with insertion sort
+                for j in range(1, len(bucket)):
+                    key = bucket[j]
+                    k = j - 1
+                    while k >= 0 and bucket[k] > key:
+                        bucket[k + 1] = bucket[k]
+                        k -= 1
+                        vis.steps += 1
+                        if hasattr(vis, 'update_display'):
+                            vis.update_display([arr_idx + k], f"Sorting bucket {bucket_idx}")
+                        yield
+                    bucket[k + 1] = key
