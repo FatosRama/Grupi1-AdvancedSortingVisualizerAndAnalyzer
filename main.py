@@ -79,9 +79,6 @@ class SortingApp:
         
 
 
-
-
-
         def use_custom_array(self):
             try:
                 text = self.custom_entry.get()
@@ -114,3 +111,9 @@ class SortingApp:
                 self.ax.set_ylim(0, max(arr) * 1.1)
 
             self.canvas.draw()
+
+
+            def visualize_sort(self):
+                return
+            
+            
