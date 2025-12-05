@@ -46,6 +46,17 @@ class SortingApp:
 
         # PJESA E FUNKSIONEVE
 
+        def load_algorithms(self):
+            return
+        
+        def generate_array(self):
+            return
+        
+        
+
+
+
+
         def use_custom_array(self):
             try:
                 text = self.custom_entry.get()
