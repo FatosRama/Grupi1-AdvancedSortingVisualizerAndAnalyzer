@@ -58,7 +58,24 @@ class SortingApp:
            
         
         def generate_array(self):
-            return
+            size = self.size_var.get()
+            array_type = self.array_type.get()
+
+            if array_type == "Random":
+                self.array = random.sample(range(1, size*3 + 1), size)
+            elif array_type == "Nearly Sorted":
+                self.array = list(range(1, size+1))
+
+                for _ in range(size//10):
+                    i, j = random.sample(range(size), 2)
+                    self.array[i], self.array[j] = self.array[j], self.array[i]
+            elif array_type == "Reverse":
+                self.array = list(range(size, 0, -1))
+            elif array_type == "Few Unique":
+                unique_vals = random.sample(range(1, 100), 5)
+                self.array = [random.choice(unique_vals) for _ in range(size)]
+
+            self.update_visualization()
         
 
 
