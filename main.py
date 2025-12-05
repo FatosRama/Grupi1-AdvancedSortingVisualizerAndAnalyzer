@@ -47,12 +47,20 @@ class SortingApp:
         # PJESA E FUNKSIONEVE
 
         def load_algorithms(self):
-            return
+
+            algorithms = [
+                "Bubble Sort", "Bucket Sort", "Counting Sort", "Heap Sort",
+                "Insertion Sort", "Merge Sort", "Quick Sort", "Radix Sort",
+                "Selection Sort", "Tree Sort"
+            ]
+            self.algo_combo['values'] = algorithms
+            self.algo_combo.current(0)
+           
         
         def generate_array(self):
             return
         
-        
+
 
 
 
