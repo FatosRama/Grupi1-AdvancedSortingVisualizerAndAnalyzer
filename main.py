@@ -58,4 +58,23 @@ class SortingApp:
                 messagebox.showerror("Error", "Enter comma-separated integers")
 
         def update_visualization(self, arr=None, highlights=None, title=None):
-            return
+            if arr is None:
+                arr = self.array
+
+            self.ax.clear()
+
+            colors = ['skyblue'] * len(arr)
+            if highlights:
+                for idx in highlights:
+                    if 0 <= idx < len(colors):
+                        colors[idx] = 'red'
+
+            bars = self.ax.bar(range(len(arr)), arr, color=colors)
+            self.ax.set_title(title or "Array Visualization")
+            self.ax.set_xlabel("Index")
+            self.ax.set_ylabel("Value")
+
+            if arr:
+                self.ax.set_ylim(0, max(arr) * 1.1)
+
+            self.canvas.draw()
