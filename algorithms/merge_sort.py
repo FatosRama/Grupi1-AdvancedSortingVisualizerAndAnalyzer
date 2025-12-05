@@ -55,3 +55,13 @@ def merge_sort(vis, left=0, right=None):
                         yield
                     i += 1
                     k += 1
+
+                    while j < len(right_part):
+                        if arr[k] != right_part[j]:
+                            arr[k] = right_part[j]
+                            vis.steps += 1
+                            if hasattr(vis, 'update_display'):
+                                vis.update_display([k], "Merging")
+                            yield
+                        j += 1
+                        k += 1
