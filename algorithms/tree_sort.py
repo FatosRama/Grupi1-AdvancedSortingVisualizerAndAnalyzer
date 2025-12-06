@@ -10,6 +10,14 @@ def tree_sort(vis):
             vis.mark_sorted()
             yield
             return
+        
+        root= None
+        for i, num in enumerate(arr):
+            root=insert(root,num)
+            vis.steps+=1
+            if hasattr(vis,'update_display'):
+                vis.update_display([i],f"Inserting {num} into BST")
+            yield
 
 def insert(root,val):
         if not root:
