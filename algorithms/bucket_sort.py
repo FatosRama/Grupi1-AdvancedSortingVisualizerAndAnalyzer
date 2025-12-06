@@ -39,3 +39,15 @@ def bucket_sort(vis):
                             vis.update_display([arr_idx + k], f"Sorting bucket {bucket_idx}")
                         yield
                     bucket[k + 1] = key
+
+                    # Copy back to array - VISUALIZE
+                    for num in bucket:
+                        arr[arr_idx] = num
+                        vis.steps += 1
+                        if hasattr(vis, 'update_display'):
+                            vis.update_display([arr_idx], f"From bucket {bucket_idx}")
+                        yield
+                        arr_idx += 1
+
+                vis.mark_sorted()
+                yield
