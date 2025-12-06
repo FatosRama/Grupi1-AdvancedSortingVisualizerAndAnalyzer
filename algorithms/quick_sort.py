@@ -25,3 +25,17 @@ def quick_sort(vis):
                 yield
 
             pivot_index = i + 1
+
+            if high - pivot_index > pivot_index - low:
+                if pivot_index + 1 < high:
+                    stack.append((pivot_index + 1, high))
+                if pivot_index - 1 > low:
+                    stack.append((low, pivot_index - 1))
+            else:
+                if pivot_index - 1 > low:
+                    stack.append((low, pivot_index - 1))
+                if pivot_index + 1 < high:
+                    stack.append((pivot_index + 1, high))
+
+    vis.mark_sorted()
+    yield
