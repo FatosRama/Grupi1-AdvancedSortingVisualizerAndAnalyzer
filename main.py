@@ -51,6 +51,12 @@ class SortingApp:
         self.algo_combo.grid(row=5, column=1, padx=5)
         self.load_algorithms()
 
+        stats_frame = ttk.LabelFrame(self.root, text="Current Algorithm Stats", padding=10)
+        stats_frame.grid(row=0, column=2, sticky="nsew", padx=10, pady=10)
+
+        self.stats_text = scrolledtext.ScrolledText(stats_frame, height=20, width=30)
+        self.stats_text.pack(fill=tk.BOTH, expand=True)
+
         # PJESA E FUNKSIONEVE
 
         def load_algorithms(self):
