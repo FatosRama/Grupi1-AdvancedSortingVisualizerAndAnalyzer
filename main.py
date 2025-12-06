@@ -44,6 +44,13 @@ class SortingApp:
         ttk.Button(control_frame, text="Use Custom",
                    command=self.use_custom_array).grid(row=4, column=0, columnspan=2, pady=5)
 
+        ttk.Label(control_frame, text="Algorithm:").grid(row=5, column=0, sticky="w", pady=10)
+        self.algo_var = tk.StringVar()
+        self.algo_combo = ttk.Combobox(control_frame, textvariable=self.algo_var,
+                                       state="readonly", width=20)
+        self.algo_combo.grid(row=5, column=1, padx=5)
+        self.load_algorithms()
+
         # PJESA E FUNKSIONEVE
 
         def load_algorithms(self):
