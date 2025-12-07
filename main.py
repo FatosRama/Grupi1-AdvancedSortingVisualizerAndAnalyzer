@@ -57,6 +57,12 @@ class SortingApp:
         self.stats_text = scrolledtext.ScrolledText(stats_frame, height=20, width=30)
         self.stats_text.pack(fill=tk.BOTH, expand=True)
 
+        report_frame = ttk.LabelFrame(self.root, text="Comparison Report", padding=10)
+        report_frame.grid(row=1, column=0, columnspan=3, sticky="nsew", padx=10, pady=10)
+
+        self.report_text = scrolledtext.ScrolledText(report_frame, height=12)
+        self.report_text.pack(fill=tk.BOTH, expand=True)
+
         # PJESA E FUNKSIONEVE
 
         def load_algorithms(self):
