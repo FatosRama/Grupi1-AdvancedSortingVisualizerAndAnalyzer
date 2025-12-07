@@ -1,3 +1,7 @@
+# Radix Sort Algorithm:
+# Sorts an array by processing digits from least to most significant.
+# Uses counting sort as a subroutine and updates the visualizer (vis) at each step.
+
 def radix_sort(vis):
     arr=vis.arr
     if not arr:
