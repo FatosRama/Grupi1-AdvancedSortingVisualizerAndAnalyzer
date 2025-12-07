@@ -68,6 +68,11 @@ class SortingApp:
         self.root.columnconfigure(1, weight=3)
         self.root.columnconfigure(2, weight=1)
 
+        style = ttk.Style()
+        style.configure('Accent.TButton', foreground='white', background='#0078D7')
+
+        self.generate_array()
+
         # PJESA E FUNKSIONEVE
 
         def load_algorithms(self):
