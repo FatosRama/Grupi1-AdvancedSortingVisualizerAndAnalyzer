@@ -10,7 +10,7 @@ def tree_sort(vis):
             vis.mark_sorted()
             yield
             return
-        
+
         root= None
         for i, num in enumerate(arr):
             root=insert(root,num)
@@ -18,6 +18,22 @@ def tree_sort(vis):
             if hasattr(vis,'update_display'):
                 vis.update_display([i],f"Inserting {num} into BST")
             yield
+
+        stack = []
+        current = root
+        idx = 0
+
+        while stack or current:
+            while current:
+                stack.append(current)
+                current = current.left
+
+            current = stack.pop()
+            arr[idx] = current.val
+            yield
+
+            idx += 1
+            current = current.right
 
 def insert(root,val):
         if not root:
@@ -27,3 +43,4 @@ def insert(root,val):
             root.left=insert(root.left, val)
         else:
             root.right=insert(root.right, val)
+
