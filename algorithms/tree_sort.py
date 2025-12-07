@@ -35,6 +35,9 @@ def tree_sort(vis):
             idx += 1
             current = current.right
 
+        vis.mark_sorted()
+        yield
+
 def insert(root,val):
         if not root:
             return TreeNode(val)
@@ -44,3 +47,4 @@ def insert(root,val):
         else:
             root.right=insert(root.right, val)
 
+        return root
