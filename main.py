@@ -63,6 +63,11 @@ class SortingApp:
         self.report_text = scrolledtext.ScrolledText(report_frame, height=12)
         self.report_text.pack(fill=tk.BOTH, expand=True)
 
+        self.root.grid_rowconfigure(0, weight=3)
+        self.root.grid_rowconfigure(1, weight=1)
+        self.root.columnconfigure(1, weight=3)
+        self.root.columnconfigure(2, weight=1)
+
         # PJESA E FUNKSIONEVE
 
         def load_algorithms(self):
