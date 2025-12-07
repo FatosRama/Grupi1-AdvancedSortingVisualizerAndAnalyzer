@@ -18,6 +18,9 @@ def tree_sort(vis):
 
         root= None
         for i, num in enumerate(arr):
+            #EXPERIMENTAL DEBUG: print each insertion
+            print(f"Debug: inserting {num} into BST")
+            
             root=insert(root,num)
             vis.steps+=1
             if hasattr(vis,'update_display'):
