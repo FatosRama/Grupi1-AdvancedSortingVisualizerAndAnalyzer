@@ -4,6 +4,11 @@ class TreeNode:
         self.left = None
         self.right = None
 
+# Tree Sort Algorithm:
+# Build a Binary Search Tree (BST) from the array, then perform an
+# inorder traversal to retrieve the values in sorted order.
+# The visualizer (vis) updates each step for animations.
+
 def tree_sort(vis):
         arr = vis.arr
         if not arr:
