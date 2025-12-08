@@ -27,3 +27,9 @@ def heap_sort(vis):
             yield
             if arr[left] > arr[largest]:
                 largest = left
+
+                if right < n:
+                    vis.compare(right, largest)
+                    yield
+                    if arr[right] > arr[largest]:
+                        largest = right
