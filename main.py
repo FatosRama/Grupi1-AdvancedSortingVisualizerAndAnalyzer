@@ -169,7 +169,11 @@ class SortingApp:
             self.toggle_buttons(True)
 
     def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
-        return
+        try:
+            print("Try block")
+        except Exception as e:
+            print(f"Error during visualization: {e}")
+            self.algorithm_completed(visualizer, algo_name)
 
     def compare_all(self):
         return
