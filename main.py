@@ -190,5 +190,13 @@ class SortingApp:
 
         self.all_stats.clear()
 
+        for algo in self.algo_combo['values']:
+            try:
+                print("Try block")
+            except Exception as e:
+                print(f"Error running {algo}: {e}")
+
+        self.update_report()
+
     def update_stats_display(self, stats):
         return
