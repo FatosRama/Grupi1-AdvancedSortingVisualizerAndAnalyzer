@@ -184,7 +184,11 @@ class SortingApp:
             self.algorithm_completed(visualizer, algo_name)
 
     def compare_all(self):
-        return
+        if not self.array:
+            messagebox.showwarning("Warning", "Generate an array first")
+            return
+
+        self.all_stats.clear()
 
     def update_stats_display(self, stats):
         return
