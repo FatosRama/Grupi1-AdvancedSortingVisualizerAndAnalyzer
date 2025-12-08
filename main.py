@@ -168,3 +168,11 @@ class SortingApp:
             messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
             self.toggle_buttons(True)
 
+    def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
+        return
+
+    def compare_all(self):
+        return
+
+    def update_stats_display(self, stats):
+        return
