@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
+from visualizer import Visualizer
 import random
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -151,5 +152,17 @@ class SortingApp:
                 if not algo:
                     messagebox.showwarning("Warning", "Select an algorithm")
                     return
-            
+                
+                self.toggle_buttons(False)
+
+                try:
+                    filename = algo.lower().replace(" ","_")
+                    module = importlib.import_module(f"algorithms.{filename}")
+                    algorithm_func = getattr(module, filename)
+
+                    vis = Visualizer(self.array, self.fig, self.ax, self.canvas)
+                    
+                    self.root.after(100, lambda: self.run_algorithm_steps(algorithm_func, vis, algo))
+                
+                
             
