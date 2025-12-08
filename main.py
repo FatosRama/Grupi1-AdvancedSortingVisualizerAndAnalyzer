@@ -164,5 +164,8 @@ class SortingApp:
                     
                     self.root.after(100, lambda: self.run_algorithm_steps(algorithm_func, vis, algo))
                 
-                
+                except Exception as e:
+                    messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
+                    self.toggle_buttons(True)
+
             
