@@ -16,28 +16,25 @@ def heap_sort(vis):
     yield
 
 
-    def heapify(vis, n, i):
-        arr = vis.arr
-        largest = i
-        left = 2 * i + 1
-        right = 2 * i + 2
+def heapify(vis, n, i):
+    arr = vis.arr
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
 
-        if left < n:
-            vis.compare(left, largest)
-            yield
-            if arr[left] > arr[largest]:
-                largest = left
+    if left < n:
+        vis.compare(left, largest)
+        yield
+        if arr[left] > arr[largest]:
+            largest = left
 
-                if right < n:
-                    vis.compare(right, largest)
-                    yield
-                    if arr[right] > arr[largest]:
-                        largest = right
+    if right < n:
+        vis.compare(right, largest)
+        yield
+        if arr[right] > arr[largest]:
+            largest = right
 
-                        if largest != i:
-                            vis.swap(i, largest)
-                            yield
-                            yield from heapify(vis, n, largest)
-
-
-
+    if largest != i:
+        vis.swap(i, largest)
+        yield
+        yield from heapify(vis, n, largest)
