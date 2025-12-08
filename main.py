@@ -170,7 +170,15 @@ class SortingApp:
 
     def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
         try:
-            print("Try block")
+            if not hasattr(self, 'algorithm_generator'):
+                self.algorithm_generator = algorithm_func(visualizer)
+
+            try:
+                next(self.algorithm_generator)
+                self.root.after(self.speed_var.get(),
+                                lambda: self.run_algorithm_steps(algorithm_func, visualizer, algo_name))
+            except StopIteration:
+                self.algorithm_completed(visualizer, algo_name)
         except Exception as e:
             print(f"Error during visualization: {e}")
             self.algorithm_completed(visualizer, algo_name)
