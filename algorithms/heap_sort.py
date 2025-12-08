@@ -33,3 +33,11 @@ def heap_sort(vis):
                     yield
                     if arr[right] > arr[largest]:
                         largest = right
+
+                        if largest != i:
+                            vis.swap(i, largest)
+                            yield
+                            yield from heapify(vis, n, largest)
+
+
+
