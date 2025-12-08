@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
+from visualizer import Visualizer
 import random
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -75,81 +76,103 @@ class SortingApp:
 
         # PJESA E FUNKSIONEVE
 
-        def load_algorithms(self):
+    def load_algorithms(self):
 
-            algorithms = [
-                "Bubble Sort", "Bucket Sort", "Counting Sort", "Heap Sort",
-                "Insertion Sort", "Merge Sort", "Quick Sort", "Radix Sort",
-                "Selection Sort", "Tree Sort"
-            ]
-            self.algo_combo['values'] = algorithms
-            self.algo_combo.current(0)
+        algorithms = [
+            "Bubble Sort", "Bucket Sort", "Counting Sort", "Heap Sort",
+            "Insertion Sort", "Merge Sort", "Quick Sort", "Radix Sort",
+            "Selection Sort", "Tree Sort"
+        ]
+        self.algo_combo['values'] = algorithms
+        self.algo_combo.current(0)
            
         
-        def generate_array(self):
-            size = self.size_var.get()
-            array_type = self.array_type.get()
+    def generate_array(self):
+        size = self.size_var.get()
+        array_type = self.array_type.get()
 
-            if array_type == "Random":
-                self.array = random.sample(range(1, size*3 + 1), size)
-            elif array_type == "Nearly Sorted":
-                self.array = list(range(1, size+1))
+        if array_type == "Random":
+            self.array = random.sample(range(1, size*3 + 1), size)
+        elif array_type == "Nearly Sorted":
+            self.array = list(range(1, size+1))
 
-                for _ in range(size//10):
-                    i, j = random.sample(range(size), 2)
-                    self.array[i], self.array[j] = self.array[j], self.array[i]
-            elif array_type == "Reverse":
-                self.array = list(range(size, 0, -1))
-            elif array_type == "Few Unique":
-                unique_vals = random.sample(range(1, 100), 5)
-                self.array = [random.choice(unique_vals) for _ in range(size)]
+            for _ in range(size//10):
+                i, j = random.sample(range(size), 2)
+                self.array[i], self.array[j] = self.array[j], self.array[i]
+        elif array_type == "Reverse":
+            self.array = list(range(size, 0, -1))
+        elif array_type == "Few Unique":
+            unique_vals = random.sample(range(1, 100), 5)
+            self.array = [random.choice(unique_vals) for _ in range(size)]
 
-            self.update_visualization()
+        self.update_visualization()
         
 
 
-        def use_custom_array(self):
-            try:
-                text = self.custom_entry.get()
-                self.array = [int(x.strip()) for x in text.split(",")]
-                if len(self.array) > 100:
-                    self.array = self.array[:100]
-                    messagebox.showinfo("Note", "Limited to first 100 elements")
-                self.update_visualization()
-            except ValueError:
-                messagebox.showerror("Error", "Enter comma-separated integers")
+    def use_custom_array(self):
+        try:
+            text = self.custom_entry.get()
+            self.array = [int(x.strip()) for x in text.split(",")]
+            if len(self.array) > 100:
+                self.array = self.array[:100]
+                messagebox.showinfo("Note", "Limited to first 100 elements")
+            self.update_visualization()
+        except ValueError:
+            messagebox.showerror("Error", "Enter comma-separated integers")
 
-        def update_visualization(self, arr=None, highlights=None, title=None):
-            if arr is None:
-                arr = self.array
+    def update_visualization(self, arr=None, highlights=None, title=None):
+        if arr is None:
+            arr = self.array
 
-            self.ax.clear()
+        self.ax.clear()
 
-            colors = ['skyblue'] * len(arr)
-            if highlights:
-                for idx in highlights:
-                    if 0 <= idx < len(colors):
-                        colors[idx] = 'red'
+        colors = ['skyblue'] * len(arr)
+        if highlights:
+            for idx in highlights:
+                if 0 <= idx < len(colors):
+                    colors[idx] = 'red'
 
-            bars = self.ax.bar(range(len(arr)), arr, color=colors)
-            self.ax.set_title(title or "Array Visualization")
-            self.ax.set_xlabel("Index")
-            self.ax.set_ylabel("Value")
+        bars = self.ax.bar(range(len(arr)), arr, color=colors)
+        self.ax.set_title(title or "Array Visualization")
+        self.ax.set_xlabel("Index")
+        self.ax.set_ylabel("Value")
 
-            if arr:
-                self.ax.set_ylim(0, max(arr) * 1.1)
+        if arr:
+            self.ax.set_ylim(0, max(arr) * 1.1)
 
-            self.canvas.draw()
+        self.canvas.draw()
 
 
-            def visualize_sort(self):
-                if not self.array:
-                    messagebox.showwarning("Warning", "Generate an array first")
-                    return
+    def visualize_sort(self):
+        if not self.array:
+            messagebox.showwarning("Warning", "Generate an array first")
+            return
                 
-                algo = self.algo_var.get()
-                if not algo:
-                    messagebox.showwarning("Warning", "Select an algorithm")
-                    return
-            
-            
+        algo = self.algo_var.get()
+        if not algo:
+            messagebox.showwarning("Warning", "Select an algorithm")
+            return
+                
+        self.toggle_buttons(False)
+
+        try:
+            filename = algo.lower().replace(" ","_")
+            module = importlib.import_module(f"algorithms.{filename}")
+            algorithm_func = getattr(module, filename)
+
+            vis = Visualizer(self.array, self.fig, self.ax, self.canvas)
+                    
+            self.root.after(100, lambda: self.run_algorithm_steps(algorithm_func, vis, algo))
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
+            self.toggle_buttons(True)
+
+    def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
+        return
+
+    def compare_all(self):
+        return
+
+    def update_stats_display(self, stats):
+        return
