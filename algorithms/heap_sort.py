@@ -15,8 +15,15 @@ def heap_sort(vis):
     vis.mark_sorted()
     yield
 
+
     def heapify(vis, n, i):
         arr = vis.arr
         largest = i
         left = 2 * i + 1
         right = 2 * i + 2
+
+        if left < n:
+            vis.compare(left, largest)
+            yield
+            if arr[left] > arr[largest]:
+                largest = left
