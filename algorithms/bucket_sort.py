@@ -5,7 +5,7 @@ def bucket_sort(vis):
         yield
         return
 
-# Create buckets
+    # Create buckets
     n = len(arr)
     max_val = max(arr)
     min_val = min(arr)
@@ -23,31 +23,31 @@ def bucket_sort(vis):
             vis.update_display([idx], f"Bucket {bucket_idx}")
         yield
 
-        # Sort individual buckets - VISUALIZE
-        arr_idx = 0
-        for bucket_idx, bucket in enumerate(buckets):
-            if bucket:
-                # Sort this bucket with insertion sort
-                for j in range(1, len(bucket)):
-                    key = bucket[j]
-                    k = j - 1
-                    while k >= 0 and bucket[k] > key:
-                        bucket[k + 1] = bucket[k]
-                        k -= 1
-                        vis.steps += 1
-                        if hasattr(vis, 'update_display'):
-                            vis.update_display([arr_idx + k], f"Sorting bucket {bucket_idx}")
-                        yield
-                    bucket[k + 1] = key
+    # Sort individual buckets - VISUALIZE
+    arr_idx = 0
+    for bucket_idx, bucket in enumerate(buckets):
+        if bucket:
+            # Sort this bucket with insertion sort
+            for j in range(1, len(bucket)):
+                key = bucket[j]
+                k = j - 1
+                while k >= 0 and bucket[k] > key:
+                    bucket[k + 1] = bucket[k]
+                    k -= 1
+                    vis.steps += 1
+                    if hasattr(vis, 'update_display'):
+                        vis.update_display([arr_idx + k], f"Sorting bucket {bucket_idx}")
+                    yield
+                bucket[k + 1] = key
 
-                    # Copy back to array - VISUALIZE
-                    for num in bucket:
-                        arr[arr_idx] = num
-                        vis.steps += 1
-                        if hasattr(vis, 'update_display'):
-                            vis.update_display([arr_idx], f"From bucket {bucket_idx}")
-                        yield
-                        arr_idx += 1
-
-                vis.mark_sorted()
+            # Copy back to array - VISUALIZE
+            for num in bucket:
+                arr[arr_idx] = num
+                vis.steps += 1
+                if hasattr(vis, 'update_display'):
+                    vis.update_display([arr_idx], f"From bucket {bucket_idx}")
                 yield
+                arr_idx += 1
+
+    vis.mark_sorted()
+    yield
