@@ -143,6 +143,13 @@ class SortingApp:
 
 
             def visualize_sort(self):
-                return
+                if not self.array:
+                    messagebox.showwarning("Warning", "Generate an array first")
+                    return
+                
+                algo = self.algo_var.get()
+                if not algo:
+                    messagebox.showwarning("Warning", "Select an algorithm")
+                    return
             
             
