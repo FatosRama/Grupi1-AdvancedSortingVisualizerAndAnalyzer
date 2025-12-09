@@ -205,11 +205,13 @@ class SortingApp:
         stats = visualizer.get_stats()
         stats['algorithm'] = algo_name
         self.all_stats[algo_name] = stats
-        
+
         self.update_stats_display(stats)
         self.toggle_buttons(True)
         del self.algorithm_generator
 
+        if hasattr(self, 'algorithm_generator'):
+            del self.algorithm_generator
 
 
 
