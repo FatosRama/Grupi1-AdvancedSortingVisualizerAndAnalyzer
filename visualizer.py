@@ -89,3 +89,12 @@ class FastVisualizer:
 
     def mark_sorted(self):
         pass
+
+    def get_stats(self):
+     return {
+         'time': time.time() - self.start_time,
+         'comparisons': self.comparisons,
+         'swaps': self.swaps,
+         'array_size': len(self.arr),
+         'steps': self.steps
+    }
