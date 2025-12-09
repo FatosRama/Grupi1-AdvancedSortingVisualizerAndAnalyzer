@@ -23,45 +23,45 @@ class SortingApp:
     # PJESA E UI
 
     def setup_ui(self):
-        control_frame = ttk.LabelFrame(self.root, text="Controls", padding=10)
-        control_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        self.control_frame = ttk.LabelFrame(self.root, text="Controls", padding=10)
+        self.control_frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
 
-        ttk.Label(control_frame, text="Array Size:").grid(row=0, column=0, sticky="w")
+        ttk.Label(self.control_frame, text="Array Size:").grid(row=0, column=0, sticky="w")
         self.size_var = tk.IntVar(value=30)
-        size_slider = ttk.Scale(control_frame, from_=10, to=100,variable=self.size_var, orient="horizontal")
+        size_slider = ttk.Scale(self.control_frame, from_=10, to=100,variable=self.size_var, orient="horizontal")
         size_slider.grid(row=0, column=1, padx=5)
 
-        ttk.Label(control_frame, text="Array Type:").grid(row=1, column=0, sticky="w", pady=5)
+        ttk.Label(self.control_frame, text="Array Type:").grid(row=1, column=0, sticky="w", pady=5)
         self.array_type = tk.StringVar(value="Random")
         array_types = ["Random", "Nearly Sorted", "Reverse", "Few Unique"]
 
-        ttk.Combobox(control_frame, textvariable=self.array_type,values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
+        ttk.Combobox(self.control_frame, textvariable=self.array_type,values=array_types, state="readonly", width=15).grid(row=1, column=1, padx=5)
 
-        ttk.Button(control_frame, text="Generate Array",
+        ttk.Button(self.control_frame, text="Generate Array",
                    command=self.generate_array).grid(row=2, column=0, columnspan=2, pady=10)
 
-        ttk.Label(control_frame, text="Custom Array:").grid(row=3, column=0, sticky="w", pady=5)
-        self.custom_entry = ttk.Entry(control_frame, width=25)
+        ttk.Label(self.control_frame, text="Custom Array:").grid(row=3, column=0, sticky="w", pady=5)
+        self.custom_entry = ttk.Entry(self.control_frame, width=25)
         self.custom_entry.grid(row=3, column=1, padx=5)
-        ttk.Button(control_frame, text="Use Custom",
-                   command=self.use_custom_array).grid(row=4, column=0, columnspan=2, pady=5)
+        ttk.Button(self.control_frame, text="Use Custom",
+               command=self.use_custom_array).grid(row=4, column=0, columnspan=2, pady=5)
 
-        ttk.Label(control_frame, text="Algorithm:").grid(row=5, column=0, sticky="w", pady=10)
+        ttk.Label(self.control_frame, text="Algorithm:").grid(row=5, column=0, sticky="w", pady=10)
         self.algo_var = tk.StringVar()
-        self.algo_combo = ttk.Combobox(control_frame, textvariable=self.algo_var,
-                                       state="readonly", width=20)
+        self.algo_combo = ttk.Combobox(self.control_frame, textvariable=self.algo_var,
+                           state="readonly", width=20)
         self.algo_combo.grid(row=5, column=1, padx=5)
         self.load_algorithms()
 
-        ttk.Label(control_frame, text="Speed (ms): ").grid(row=6, column=0, sticky="w", pady=5)
+        ttk.Label(self.control_frame, text="Speed (ms): ").grid(row=6, column=0, sticky="w", pady=5)
         self.speed_var = tk.IntVar(value=50)
-        ttk.Scale(control_frame, from_=1, to=500, variable=self.speed_var, orient="horizontal").grid(row=6, column=1, padx=5)
+        ttk.Scale(self.control_frame, from_=1, to=500, variable=self.speed_var, orient="horizontal").grid(row=6, column=1, padx=5)
 
-        ttk.Button(control_frame, text="Visualize Sort", command=self.visualize_sort, style='Accent.TButton').grid(row=7, column=0, columnspan=2, pady=10)
-        ttk.Button(control_frame, text="Fast Sort (No Visual)", command=self.fast_sort).grid(row=8, column=0, columnspan=2, pady=5)
-        ttk.Button(control_frame, text="Compare All Algorithms", command=self.compare_all).grid(row=9, column=0, columnspan=2, pady=5)
-        ttk.Button(control_frame, text="Reset", command=self.reset).grid(row=10, column=0, columnspan=2, pady=5)
-        ttk.Button(control_frame, text="Stop", command=self.stop_sort).grid(row=11, column=0, columnspan=2, pady=5)
+        ttk.Button(self.control_frame, text="Visualize Sort", command=self.visualize_sort, style='Accent.TButton').grid(row=7, column=0, columnspan=2, pady=10)
+        ttk.Button(self.control_frame, text="Fast Sort (No Visual)", command=self.fast_sort).grid(row=8, column=0, columnspan=2, pady=5)
+        ttk.Button(self.control_frame, text="Compare All Algorithms", command=self.compare_all).grid(row=9, column=0, columnspan=2, pady=5)
+        ttk.Button(self.control_frame, text="Reset", command=self.reset).grid(row=10, column=0, columnspan=2, pady=5)
+        ttk.Button(self.control_frame, text="Stop", command=self.stop_sort).grid(row=11, column=0, columnspan=2, pady=5)
 
         vis_frame = ttk.LabelFrame(self.root, text="Visualization", padding=10)
         vis_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
@@ -179,8 +179,18 @@ class SortingApp:
             algorithm_func = getattr(module, filename)
 
             vis = Visualizer(self.array, self.fig, self.ax, self.canvas)
-                    
-            self.root.after(100, lambda: self.run_algorithm_steps(algorithm_func, vis, algo))
+
+            # reset stop flag and any existing after id
+            self.stop_requested = False
+            if hasattr(self, '_after_id'):
+                try:
+                    self.root.after_cancel(self._after_id)
+                except Exception:
+                    pass
+                delattr(self, '_after_id')
+
+            # schedule the first step and store the after id so we can cancel it
+            self._after_id = self.root.after(100, lambda: self.run_algorithm_steps(algorithm_func, vis, algo))
                 
         except Exception as e:
             messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
@@ -188,12 +198,24 @@ class SortingApp:
 
     def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
         try:
+            # stop early if requested
+            if getattr(self, 'stop_requested', False):
+                # cleanup any scheduled callback
+                if hasattr(self, '_after_id'):
+                    try:
+                        self.root.after_cancel(self._after_id)
+                    except Exception:
+                        pass
+                    delattr(self, '_after_id')
+                return
+
             if not hasattr(self, 'algorithm_generator'):
                 self.algorithm_generator = algorithm_func(visualizer)
 
             try:
                 next(self.algorithm_generator)
-                self.root.after(self.speed_var.get(),
+                # schedule next step and keep its id for cancellation
+                self._after_id = self.root.after(self.speed_var.get(),
                                 lambda: self.run_algorithm_steps(algorithm_func, visualizer, algo_name))
             except StopIteration:
                 self.algorithm_completed(visualizer, algo_name)
@@ -208,10 +230,25 @@ class SortingApp:
 
         self.update_stats_display(stats)
         self.toggle_buttons(True)
-        del self.algorithm_generator
-
+        # cleanup generator and scheduled callbacks
         if hasattr(self, 'algorithm_generator'):
-            del self.algorithm_generator
+            try:
+                del self.algorithm_generator
+            except Exception:
+                pass
+
+        if hasattr(self, '_after_id'):
+            try:
+                self.root.after_cancel(self._after_id)
+            except Exception:
+                pass
+            try:
+                delattr(self, '_after_id')
+            except Exception:
+                pass
+
+        # reset stop flag
+        self.stop_requested = False
 
     def fast_sort(self):
         if not self.array:
@@ -313,6 +350,43 @@ class SortingApp:
 
         self.report_text.insert(tk.END, report)
 
+    def toggle_buttons(self, enabled):
+        state = "normal" if enabled else "disabled"
+        # Toggle controls inside the control frame. Keep the Stop button enabled while running.
+        stop_state = "normal" if not enabled else "disabled"
+        for w in self.control_frame.winfo_children():
+            # Try to set state for widgets that support it
+            try:
+                # If this is the Stop button, use stop_state
+                if getattr(w, 'cget', None) and w.cget('text') == 'Stop':
+                    w.configure(state=stop_state)
+                else:
+                    w.configure(state=state)
+            except Exception:
+                # ignore widgets that don't support state
+                pass
+
+    def stop_sort(self):
+        # Request stop and cancel any scheduled callbacks
+        self.stop_requested = True
+
+        if hasattr(self, '_after_id'):
+            try:
+                self.root.after_cancel(self._after_id)
+            except Exception:
+                pass
+            try:
+                delattr(self, '_after_id')
+            except Exception:
+                pass
+
+        if hasattr(self, 'algorithm_generator'):
+            try:
+                del self.algorithm_generator
+            except Exception:
+                pass
+
+        self.toggle_buttons(True)
 
     def reset(self):
         self.array = []
