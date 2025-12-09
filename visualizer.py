@@ -1,4 +1,5 @@
 import time
+import matplotlib.pyplot as plt
 
 class Visualizer:
     """Visualizer for step-by-step sorting"""
@@ -19,6 +20,15 @@ class Visualizer:
         self.comparisons += 1
         self.steps += 1
         self.update_display([i, j], "Comparing")
+
+
+    def swap(self, i, j):
+     """Swap two elements"""
+        self.swaps += 1
+        self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
+        self.steps += 1
+        self.update_display([i, j], "Swapping")
+
 
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
