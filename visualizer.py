@@ -29,6 +29,17 @@ class Visualizer:
         self.steps += 1
         self.update_display([i, j], "Swapping")
 
+     def update_display(self, highlights, action):
+        """Update visualization"""
+        self.ax.clear()
+
+        colors = []
+        for idx in range(len(self.arr)):
+            if idx in highlights:
+                colors.append('red')
+            else:
+                colors.append('skyblue')
+
 
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
