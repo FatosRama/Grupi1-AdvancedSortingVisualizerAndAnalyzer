@@ -86,3 +86,6 @@ class FastVisualizer:
          self.swaps += 1
          self.steps += 1
          self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
+
+    def mark_sorted(self):
+        pass
