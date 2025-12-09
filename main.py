@@ -237,7 +237,11 @@ class SortingApp:
             stats['algorithm'] = algo
             self.all_stats[algo] = stats
 
+            self.update_visualization(vis.array, title=f"{algo} - Fast Sort Completed")
             self.update_stats_display(stats)
+            self.update_report()
+
+
         except Exception as e:
             messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
 
