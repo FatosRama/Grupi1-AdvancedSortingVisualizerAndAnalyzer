@@ -54,7 +54,7 @@ class SortingApp:
         self.load_algorithms()
 
         ttk.Label(control_frame, text="Speed (ms): ").grid(row=6, column=0, sticky="w", pady=5)
-        self.seed_var = tk.IntVar(value=50)
+        self.speed_var = tk.IntVar(value=50)
         ttk.Scale(control_frame, from_=1, to=500, variable=self.speed_var, orient="horizontal").grid(row=6, column=1, padx=5)
 
         ttk.Button(control_frame, text="Visualize Sort", command=self.visualize_sort, style='Accent.TButton').grid(row=7, column=0, columnspan=2, pady=10)
@@ -274,12 +274,12 @@ class SortingApp:
     def update_stats_display(self, stats):
         return
 
-def update_report(self):
+    def update_report(self):
         self.report_text.delete(1.0, tk.END)
         if not self.all_stats:
             self.report_text.insert(tk.END, "No statistics to display.\n")
             return
-        
+
         report = "=" * 80 + "\n"
         report += "Sorting Algorithms Comparison Report\n"
         report += "=" * 80 + "\n\n"
@@ -291,11 +291,12 @@ def update_report(self):
         report += f"{'Algorithm':<20}{'Time (s)':<12}{'Comparisons':<15}{'Swaps':<15}\n"
         report += "-" * 70 + "\n"
 
-        sorted_stats = sorted(self.all_stats.values(), key=lambda x: x[1]['time'])
-        for algo, stats in sorted_stats:
-            report += f"{algo:<20}{stats['time']:<12.6f}"
-            report += f"{stats['comparisons']:<15,} {stats['swaps']:<15,}\n"
         
+        sorted_stats = sorted(self.all_stats.items(), key=lambda kv: kv[1].get('time', float('inf')))
+        for algo, stats in sorted_stats:
+            report += f"{algo:<20}{stats.get('time', 0):<12.6f}"
+            report += f"{stats.get('comparisons', 0):<15,} {stats.get('swaps', 0):<15,}\n"
+
         report += "\n" + "=" * 80 + "\n"
         report += "SUMMARY:\n"
 
@@ -303,12 +304,31 @@ def update_report(self):
             fastest = sorted_stats[0]
             slowest = sorted_stats[-1]
 
-            report += f"✓ Fastest: {fastest[0]} ({fastest[1]['time']:.6f}s)\n"
-            report += f"✗ Slowest: {slowest[0]} ({slowest[1]['time']:.6f}s)\n"
+            report += f"Fastest: {fastest[0]} ({fastest[1].get('time', 0):.6f}s)\n"
+            report += f"Slowest: {slowest[0]} ({slowest[1].get('time', 0):.6f}s)\n"
 
-            
-            if fastest[1]['time'] > 0:
-                ratio = slowest[1]['time'] / fastest[1]['time']
+            if fastest[1].get('time', 0) > 0:
+                ratio = slowest[1].get('time', 0) / fastest[1].get('time', 1)
                 report += f"Speed Ratio (Slowest/Fastest): {ratio:.2f}x\n"
 
         self.report_text.insert(tk.END, report)
+
+
+    def reset(self):
+        self.array = []
+        self.all_stats.clear()
+        self.ax.clear()
+        self.canvas.draw()
+        self.stats_text.delete(1.0, tk.END)
+        self.report_text.delete(1.0, tk.END)
+
+        if hasattr(self, 'algorithm_generator'):
+            del self.algorithm_generator
+
+        self.generate_array()
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = SortingApp(root)
+    root.mainloop()
