@@ -70,3 +70,11 @@ class Visualizer:
 
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
+
+       def __init__(self, arr):
+          self.arr = arr.copy()
+          self.original = arr.copy()
+          self.comparisons = 0
+          self.swaps = 0
+          self.steps = 0
+          self.start_time = time.time()
