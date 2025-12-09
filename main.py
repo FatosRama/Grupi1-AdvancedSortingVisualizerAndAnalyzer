@@ -223,6 +223,21 @@ class SortingApp:
             messagebox.showwarning("Warning", "Select an algorithm")
             return
 
+        try:
+            filename = algo.lower().replace(" ", "_")
+            module = importlib.import_module(f"algorithms.{filename}")
+            algorithm_func = getattr(module, filename)
+
+            vis = FastVisualizer(self.array.copy())
+
+            for _ in algorithm_func(vis):
+                pass
+
+            stats = vis.get_stats()
+            stats['algorithm'] = algo
+            self.all_stats[algo] = stats
+
+            self.update_stats_display(stats)
 
 
     def compare_all(self):
