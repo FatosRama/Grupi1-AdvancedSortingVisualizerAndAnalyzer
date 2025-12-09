@@ -198,6 +198,13 @@ class SortingApp:
                 algorithm_func = getattr(module, filename)
 
                 vis = FastVisualizer(self.array.copy())
+
+                for _ in algorithm_func(vis):
+                    pass
+
+                stats = vis.get_stats()
+                stats['algorithm'] = algo
+                self.all_stats[algo] = stats
             except Exception as e:
                 print(f"Error running {algo}: {e}")
 
