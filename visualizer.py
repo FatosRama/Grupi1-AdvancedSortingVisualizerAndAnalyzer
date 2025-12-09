@@ -58,5 +58,15 @@ class Visualizer:
          self.ax.set_title("Sorting Completed!")
          self.canvas.draw()
 
+      def get_stats(self):
+          """Get statistics"""
+          return {
+              'time': time.time() - self.start_time,
+              'comparisons': self.comparisons,
+              'swaps': self.swaps,
+              'array_size': len(self.arr),
+              'steps': self.steps
+          }
+
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
