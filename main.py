@@ -53,6 +53,24 @@ class SortingApp:
         self.algo_combo.grid(row=5, column=1, padx=5)
         self.load_algorithms()
 
+        ttk.Label(control_frame, text="Speed (ms): ").grid(row=6, column=0, sticky="w", pady=5)
+        self.seed_var = tk.IntVar(value=50)
+        ttk.Scale(control_frame, from_=1, to=500, variable=self.speed_var, orient="horizontal").grid(row=6, column=1, padx=5)
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         stats_frame = ttk.LabelFrame(self.root, text="Current Algorithm Stats", padding=10)
         stats_frame.grid(row=0, column=2, sticky="nsew", padx=10, pady=10)
 
