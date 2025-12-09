@@ -51,6 +51,12 @@ class Visualizer:
         self.canvas.draw()
 
 
+     def mark_sorted(self):
+      """Mark as sorted"""
+         self.ax.clear()
+         self.ax.bar(range(len(self.arr)), self.arr, color='green')
+         self.ax.set_title("Sorting Completed!")
+         self.canvas.draw()
 
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
