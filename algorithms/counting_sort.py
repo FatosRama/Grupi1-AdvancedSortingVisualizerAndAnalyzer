@@ -1,3 +1,8 @@
+# Counting Sort Algorithm:
+# Sorts an array by counting occurrences of each value.
+# Works efficiently when the range of input values is not too large.
+# Uses an auxiliary count array and builds the sorted array step-by-step,
+# updating the visualizer (vis) after each significant action.
 def counting_sort(vis):
     arr=vis.arr
 
