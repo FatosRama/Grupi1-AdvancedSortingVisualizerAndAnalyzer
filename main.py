@@ -70,18 +70,6 @@ class SortingApp:
         self.canvas = FigureCanvasTkAgg(self.fig, master=vis_frame)
         self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
-
-
-
-
-
-
-
-
-
-
-
-
         stats_frame = ttk.LabelFrame(self.root, text="Current Algorithm Stats", padding=10)
         stats_frame.grid(row=0, column=2, sticky="nsew", padx=10, pady=10)
 
@@ -212,6 +200,18 @@ class SortingApp:
         except Exception as e:
             print(f"Error during visualization: {e}")
             self.algorithm_completed(visualizer, algo_name)
+
+    def algorithm_completed(self, visualizer, algo_name):
+        stats = visualizer.get_stats()
+        stats['algorithm'] = algo_name
+        self.all_stats[algo_name] = stats
+        
+        self.update_stats_display(stats)
+        self.toggle_buttons(True)
+        del self.algorithm_generator
+
+
+
 
     def compare_all(self):
         if not self.array:
