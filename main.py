@@ -63,7 +63,12 @@ class SortingApp:
         ttk.Button(control_frame, text="Reset", command=self.reset).grid(row=10, column=0, columnspan=2, pady=5)
         ttk.Button(control_frame, text="Stop", command=self.stop_sort).grid(row=11, column=0, columnspan=2, pady=5)
 
+        vis_frame = ttk.LabelFrame(self.root, text="Visualization", padding=10)
+        vis_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
 
+        self.fig, self.ax = plt.subplots(figsize=(12, 7))
+        self.canvas = FigureCanvasTkAgg(self.fig, master=vis_frame)
+        self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
 
 
