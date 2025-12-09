@@ -14,5 +14,11 @@ class Visualizer:
         self.steps = 0
         self.start_time = time.time()
 
+    def compare(self, i, j):
+     """Compare two elements"""
+        self.comparisons += 1
+        self.steps += 1
+        self.update_display([i, j], "Comparing")
+
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
