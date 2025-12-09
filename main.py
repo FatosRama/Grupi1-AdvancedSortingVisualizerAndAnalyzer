@@ -238,7 +238,8 @@ class SortingApp:
             self.all_stats[algo] = stats
 
             self.update_stats_display(stats)
-
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
 
     def compare_all(self):
         if not self.array:
