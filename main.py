@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 from visualizer import Visualizer
+from visualizer import FastVisualizer
 import random
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -192,7 +193,11 @@ class SortingApp:
 
         for algo in self.algo_combo['values']:
             try:
-                print("Try block")
+                filename = algo.lower().replace(" ", "_")
+                module = importlib.import_module(f"algorithms.{filename}")
+                algorithm_func = getattr(module, filename)
+
+                vis = FastVisualizer(self.array.copy())
             except Exception as e:
                 print(f"Error running {algo}: {e}")
 
