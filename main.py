@@ -213,6 +213,16 @@ class SortingApp:
         if hasattr(self, 'algorithm_generator'):
             del self.algorithm_generator
 
+    def fast_sort(self):
+        if not self.array:
+            messagebox.showwarning("Warning", "Generate an array first")
+            return
+
+        algo = self.algo_var.get()
+        if not algo:
+            messagebox.showwarning("Warning", "Select an algorithm")
+            return
+
 
 
     def compare_all(self):
