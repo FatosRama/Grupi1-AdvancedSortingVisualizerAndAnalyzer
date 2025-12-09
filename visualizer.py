@@ -40,6 +40,17 @@ class Visualizer:
             else:
                 colors.append('skyblue')
 
+        self.ax.bar(range(len(self.arr)), self.arr, color=colors)
+        self.ax.set_title(f"{action} - Step {self.steps}")
+        self.ax.set_xlabel("Index")
+        self.ax.set_ylabel("Value")
+
+        if self.arr:
+            self.ax.set_ylim(0, max(self.arr) * 1.1)
+
+        self.canvas.draw()
+
+
 
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
