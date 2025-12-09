@@ -56,7 +56,13 @@ class SortingApp:
         ttk.Label(control_frame, text="Speed (ms): ").grid(row=6, column=0, sticky="w", pady=5)
         self.seed_var = tk.IntVar(value=50)
         ttk.Scale(control_frame, from_=1, to=500, variable=self.speed_var, orient="horizontal").grid(row=6, column=1, padx=5)
-        
+
+        ttk.Button(control_frame, text="Visualize Sort", command=self.visualize_sort, style='Accent.TButton').grid(row=7, column=0, columnspan=2, pady=10)
+        ttk.Button(control_frame, text="Fast Sort (No Visual)", command=self.fast_sort).grid(row=8, column=0, columnspan=2, pady=5)
+        ttk.Button(control_frame, text="Compare All Algorithms", command=self.compare_all).grid(row=9, column=0, columnspan=2, pady=5)
+        ttk.Button(control_frame, text="Reset", command=self.reset).grid(row=10, column=0, columnspan=2, pady=5)
+        ttk.Button(control_frame, text="Stop", command=self.stop_sort).grid(row=11, column=0, columnspan=2, pady=5)
+
 
 
 
