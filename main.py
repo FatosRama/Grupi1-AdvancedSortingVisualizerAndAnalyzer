@@ -273,3 +273,42 @@ class SortingApp:
 
     def update_stats_display(self, stats):
         return
+
+def update_report(self):
+        self.report_text.delete(1.0, tk.END)
+        if not self.all_stats:
+            self.report_text.insert(tk.END, "No statistics to display.\n")
+            return
+        
+        report = "=" * 80 + "\n"
+        report += "Sorting Algorithms Comparison Report\n"
+        report += "=" * 80 + "\n\n"
+
+        report += f"Array Size: {len(self.array)}\n"
+        report += f"Array Type: {self.array_type.get()}\n\n"
+        report += f"Array Sample: {self.array[:15]}...\n\n"
+
+        report += f"{'Algorithm':<20}{'Time (s)':<12}{'Comparisons':<15}{'Swaps':<15}\n"
+        report += "-" * 70 + "\n"
+
+        sorted_stats = sorted(self.all_stats.values(), key=lambda x: x[1]['time'])
+        for algo, stats in sorted_stats:
+            report += f"{algo:<20}{stats['time']:<12.6f}"
+            report += f"{stats['comparisons']:<15,} {stats['swaps']:<15,}\n"
+        
+        report += "\n" + "=" * 80 + "\n"
+        report += "SUMMARY:\n"
+
+        if len(sorted_stats) > 0:
+            fastest = sorted_stats[0]
+            slowest = sorted_stats[-1]
+
+            report += f"✓ Fastest: {fastest[0]} ({fastest[1]['time']:.6f}s)\n"
+            report += f"✗ Slowest: {slowest[0]} ({slowest[1]['time']:.6f}s)\n"
+
+            
+            if fastest[1]['time'] > 0:
+                ratio = slowest[1]['time'] / fastest[1]['time']
+                report += f"Speed Ratio (Slowest/Fastest): {ratio:.2f}x\n"
+
+        self.report_text.insert(tk.END, report)
