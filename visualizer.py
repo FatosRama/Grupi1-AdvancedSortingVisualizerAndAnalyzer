@@ -17,17 +17,17 @@ class Visualizer:
 
     def compare(self, i, j):
      """Compare two elements"""
-        self.comparisons += 1
-        self.steps += 1
-        self.update_display([i, j], "Comparing")
+     self.comparisons += 1
+     self.steps += 1
+     self.update_display([i, j], "Comparing")
 
 
     def swap(self, i, j):
      """Swap two elements"""
-        self.swaps += 1
-        self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
-        self.steps += 1
-        self.update_display([i, j], "Swapping")
+     self.swaps += 1
+     self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
+     self.steps += 1
+     self.update_display([i, j], "Swapping")
 
      def update_display(self, highlights, action):
         """Update visualization"""
@@ -53,10 +53,10 @@ class Visualizer:
 
      def mark_sorted(self):
       """Mark as sorted"""
-         self.ax.clear()
-         self.ax.bar(range(len(self.arr)), self.arr, color='green')
-         self.ax.set_title("Sorting Completed!")
-         self.canvas.draw()
+      self.ax.clear()
+      self.ax.bar(range(len(self.arr)), self.arr, color='green')
+      self.ax.set_title("Sorting Completed!")
+      self.canvas.draw()
 
       def get_stats(self):
           """Get statistics"""
@@ -70,11 +70,14 @@ class Visualizer:
 
 class FastVisualizer:
     """Fast Visualizer for comparisons (no display updates)"""
-
-       def __init__(self, arr):
+    def __init__(self, arr):
           self.arr = arr.copy()
           self.original = arr.copy()
           self.comparisons = 0
           self.swaps = 0
           self.steps = 0
           self.start_time = time.time()
+
+    def compare(self, i, j):
+        self.comparisons += 1
+        self.steps += 1
