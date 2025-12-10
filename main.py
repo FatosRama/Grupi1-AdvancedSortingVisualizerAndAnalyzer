@@ -374,6 +374,7 @@ class SortingApp:
                 pass
 
     def stop_sort(self):
+        # Request stop and cancel any scheduled callbacks
         self.stop_requested = True
 
         if hasattr(self, '_after_id'):
@@ -385,6 +386,11 @@ class SortingApp:
                 delattr(self, '_after_id')
             except Exception:
                 pass
+
+        if hasattr(self, 'current_visualizer'):
+            self.array = self.current_visualizer.arr.copy()  # Save current state
+            self.update_visualization(self.array, title="Stopped")
+            self.is_resuming = True  # Set resume flag
 
         if hasattr(self, 'algorithm_generator'):
             try:
