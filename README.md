@@ -16,5 +16,31 @@ Aplikacioni shfaq hap pas hapi ndryshimet në varg, përdor ngjyrosje dinamike p
 
 Projekti është modular dhe përfshin 10 algoritme të ndryshëm të sortimit, secili i zhvilluar në një file të veçantë. Ndërfaqja grafike është ndërtuar me Tkinter, ndërsa vizualizimi realizohet me Matplotlib, duke e bërë një mjet shumë praktik dhe edukativ për mësimdhënie, ushtrime laboratorike dhe vetë-studim.
 
+## ▶️ Ekzekutimi
+
+Për të ekzekutuar projektin, fillimisht hapni terminalin dhe shkoni te folderi i projektit:
+
+```bash
+cd path/to/SortingVisualizer
+```
+Pastaj niseni aplikacionin me njërën nga mënyrat:
+
+🔹 Në PyCharm
+Hapni projektin:
+Klikoni Run → Run 'main'
+
+🔹 Në terminal:
+```
+python main.py
+```
+
+---
+## Punuan
+
+- Era Berisha
+- Erblin Syla
+- Erëza Greiçevci
+- Fatos Rama
+
 ---
 
