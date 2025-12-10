@@ -203,7 +203,7 @@ class SortingApp:
 
     def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
         try:
-            if getattr(self, 'stop_requested', False):
+            if hasattr(self, 'stop_requested') and self.stop_requested:
                 if hasattr(self, '_after_id'):
                     try:
                         self.root.after_cancel(self._after_id)
@@ -218,7 +218,7 @@ class SortingApp:
             try:
                 next(self.algorithm_generator)
                 self._after_id = self.root.after(self.speed_var.get(),
-                                lambda: self.run_algorithm_steps(algorithm_func, visualizer, algo_name))
+                     lambda: self.run_algorithm_steps(algorithm_func, visualizer, algo_name))
             except StopIteration:
                 self.algorithm_completed(visualizer, algo_name)
         except Exception as e:
@@ -309,7 +309,18 @@ class SortingApp:
         self.update_report()
 
     def update_stats_display(self, stats):
-        return
+        """Update current algorithm stats"""
+        self.stats_text.delete(1.0, tk.END)
+
+        report = f"Algorithm: {stats['algorithm']}\n"
+        report += "=" * 30 + "\n"
+        report += f"Time: {stats['time']:.6f} seconds\n"
+        report += f"Comparisons: {stats['comparisons']:,}\n"
+        report += f"Swaps: {stats['swaps']:,}\n"
+        report += f"Array Size: {stats['array_size']}\n"
+        report += f"Steps: {stats['steps']:,}\n"
+
+        self.stats_text.insert(tk.END, report)
 
     def update_report(self):
         self.report_text.delete(1.0, tk.END)
@@ -355,7 +366,7 @@ class SortingApp:
         stop_state = "normal" if not enabled else "disabled"
         for w in self.control_frame.winfo_children():
             try:
-                if getattr(w, 'cget', None) and w.cget('text') == 'Stop':
+                if getattr(w, 'cget', None) and w.cget('text') == 'Pause':
                     w.configure(state=stop_state)
                 else:
                     w.configure(state=state)
