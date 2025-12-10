@@ -17,6 +17,8 @@ class SortingApp:
         self.array = []
         self.current_sorter = None
         self.all_stats = {}
+        self.is_resuming = False
+        self.stop_requested = False
 
         self.setup_ui()
 
@@ -61,7 +63,7 @@ class SortingApp:
         ttk.Button(self.control_frame, text="Fast Sort (No Visual)", command=self.fast_sort).grid(row=8, column=0, columnspan=2, pady=5)
         ttk.Button(self.control_frame, text="Compare All Algorithms", command=self.compare_all).grid(row=9, column=0, columnspan=2, pady=5)
         ttk.Button(self.control_frame, text="Reset", command=self.reset).grid(row=10, column=0, columnspan=2, pady=5)
-        ttk.Button(self.control_frame, text="Stop", command=self.stop_sort).grid(row=11, column=0, columnspan=2, pady=5)
+        ttk.Button(self.control_frame, text="Pause", command=self.stop_sort).grid(row=11, column=0, columnspan=2, pady=5)
 
         vis_frame = ttk.LabelFrame(self.root, text="Visualization", padding=10)
         vis_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
@@ -160,27 +162,31 @@ class SortingApp:
 
         self.canvas.draw()
 
-
     def visualize_sort(self):
         if not self.array:
             messagebox.showwarning("Warning", "Generate an array first")
             return
-                
+
         algo = self.algo_var.get()
         if not algo:
             messagebox.showwarning("Warning", "Select an algorithm")
             return
-                
+
         self.toggle_buttons(False)
 
         try:
-            filename = algo.lower().replace(" ","_")
+            filename = algo.lower().replace(" ", "_")
             module = importlib.import_module(f"algorithms.{filename}")
             algorithm_func = getattr(module, filename)
 
-            vis = Visualizer(self.array, self.fig, self.ax, self.canvas)
+            if self.is_resuming:
+                vis = Visualizer(self.array, self.fig, self.ax, self.canvas)
+                self.is_resuming = False
+            else:
+                vis = Visualizer(self.array, self.fig, self.ax, self.canvas)
 
-            # reset stop flag and any existing after id
+            self.current_visualizer = vis
+
             self.stop_requested = False
             if hasattr(self, '_after_id'):
                 try:
@@ -189,18 +195,15 @@ class SortingApp:
                     pass
                 delattr(self, '_after_id')
 
-            # schedule the first step and store the after id so we can cancel it
             self._after_id = self.root.after(100, lambda: self.run_algorithm_steps(algorithm_func, vis, algo))
-                
+
         except Exception as e:
             messagebox.showerror("Error", f"Failed to run {algo}:{str(e)}")
             self.toggle_buttons(True)
 
     def run_algorithm_steps(self, algorithm_func, visualizer, algo_name):
         try:
-            # stop early if requested
             if getattr(self, 'stop_requested', False):
-                # cleanup any scheduled callback
                 if hasattr(self, '_after_id'):
                     try:
                         self.root.after_cancel(self._after_id)
@@ -214,7 +217,6 @@ class SortingApp:
 
             try:
                 next(self.algorithm_generator)
-                # schedule next step and keep its id for cancellation
                 self._after_id = self.root.after(self.speed_var.get(),
                                 lambda: self.run_algorithm_steps(algorithm_func, visualizer, algo_name))
             except StopIteration:
@@ -230,7 +232,6 @@ class SortingApp:
 
         self.update_stats_display(stats)
         self.toggle_buttons(True)
-        # cleanup generator and scheduled callbacks
         if hasattr(self, 'algorithm_generator'):
             try:
                 del self.algorithm_generator
@@ -247,7 +248,6 @@ class SortingApp:
             except Exception:
                 pass
 
-        # reset stop flag
         self.stop_requested = False
 
     def fast_sort(self):
@@ -352,22 +352,17 @@ class SortingApp:
 
     def toggle_buttons(self, enabled):
         state = "normal" if enabled else "disabled"
-        # Toggle controls inside the control frame. Keep the Stop button enabled while running.
         stop_state = "normal" if not enabled else "disabled"
         for w in self.control_frame.winfo_children():
-            # Try to set state for widgets that support it
             try:
-                # If this is the Stop button, use stop_state
                 if getattr(w, 'cget', None) and w.cget('text') == 'Stop':
                     w.configure(state=stop_state)
                 else:
                     w.configure(state=state)
             except Exception:
-                # ignore widgets that don't support state
                 pass
 
     def stop_sort(self):
-        # Request stop and cancel any scheduled callbacks
         self.stop_requested = True
 
         if hasattr(self, '_after_id'):
