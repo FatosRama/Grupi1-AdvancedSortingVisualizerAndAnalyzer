@@ -407,6 +407,7 @@ class SortingApp:
         self.canvas.draw()
         self.stats_text.delete(1.0, tk.END)
         self.report_text.delete(1.0, tk.END)
+        self.is_resuming = False
 
         if hasattr(self, 'algorithm_generator'):
             del self.algorithm_generator
