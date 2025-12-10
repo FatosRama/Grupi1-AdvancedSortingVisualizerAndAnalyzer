@@ -12,7 +12,7 @@ class SortingApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Advanced Sorting Visualizer")
-        self.root.geometry("1400x900")
+        self.root.geometry("1700x1000")
 
         self.array = []
         self.current_sorter = None
